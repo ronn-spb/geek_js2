@@ -1,16 +1,17 @@
 // let cart = [];
 class cart {
-    constructor() {
+    constructor(pageProducts) {
         this.numGoods = 0;
         this.cartList = [];
+        this.pageProducts = pageProducts;
     }
     addToCart(e) {
         let indexInCart = this.cartList.findIndex(product => product.id === e.id);
 
         if (indexInCart != -1) {
-            cart[indexInCart].quantity += 1;
+            this.cartList[indexInCart].quantity += 1;
         } else {
-            let productObj = pageProducts.find(product => product.id === e.id);
+            let productObj = pageProducts.goodList.find(product => product.id === e.id);
 
             this.cartList.push({
                 id: productObj.id,
@@ -30,7 +31,7 @@ class cart {
         lvCart.innerText = list.length + "";
         let cartItemList = document.getElementsByClassName("cart_item_list")[0];
 
-        itemOutput = "";
+        let itemOutput = "";
         list.map(item => {
             itemOutput += this.renderCartItem(item)
         })
@@ -82,100 +83,67 @@ class cart {
         return total;
     }
 }
-let pageProducts = [
-    {
-        id: "1",
-        img: "catalog-item-1.png",
-        price: 52,
-        name: "Mango People T-shirt",
-    }, {
-        id: "2",
-        img: "catalog-item-2.png",
-        price: 60,
-        name: "Mango People T-shirt",
-    }, {
-        id: "3",
-        img: "catalog-item-3.png",
-        price: 53,
-        name: "Mango People T-shirt",
-    }, {
-        id: "4",
-        img: "catalog-item-4.png",
-        price: 74,
-        name: "Mango People T-shirt",
-    }, {
-        id: "5",
-        img: "catalog-item-5.png",
-        price: 90,
-        name: "Mango People T-shirt",
-    }, {
-        id: "6",
-        img: "catalog-item-6.png",
-        price: 52,
-        name: "Mango People T-shirt",
-    }, {
-        id: "7",
-        img: "catalog-item-7.png",
-        price: 58,
-        name: "Mango People T-shirt",
-    }, {
-        id: "8",
-        img: "catalog-item-8.png",
-        price: 52,
-        name: "Mango People T-shirt",
-    }, {
-        id: "9",
-        img: "catalog-item-9.png",
-        price: 73,
-        name: "Mango People T-shirt",
+class goodsList {
+    constructor(container) {
+        this.goodList = [];
+        this._goodsContiner = container;
     }
-];
-const catalogItems = document.getElementsByClassName("catalog_items");
-
-
-
-
-
-
-let itemOutput = "";
-function displayProductCard({ id, price, name, img }) {
-    let itemCardHtml = `<div class="item_card">\
-    <div class="overlay_btn">\
-    <div class="add_to_card flex" id="${id}" onclick="pageCart.addToCart(this)">\
-        <img src="img/card.svg" alt="">\
-                Add to Cart\
-    </div>\
-</div>\
-<a href="singlepage.html">\
-    <div class="item_crd_img">\
-        <img src="img/${img}" alt="Mango  People  T-shirt">\
-        <div class="overlay">\
+    addGood(goodItem) {
+        this.goodList.push(goodItem);
+    }
+    renderGoodItem({ id, price, name, img }) {
+        let itemCardHtml = `<div class="item_card">\
+        <div class="overlay_btn">\
+        <div class="add_to_card flex" id="${id}" onclick="addToCart(this)">\
+            <img src="img/card.svg" alt="">\
+                    Add to Cart\
         </div>\
     </div>\
-    <div class="itemcard_info">\
-        <div class="item_name">${name}</div>\
-        <div class="item_price">$ ${price}</div>\
-    </div>\
-</a>\
-</div>`
-    return itemCardHtml
-}
-
-function displayItemsCards(list = pageProducts) {
-
-
-    let catalogItems = document.getElementsByClassName("catalog_items");
-    let itemOutput = '';
-    list.map(item => {
-        itemOutput += displayProductCard(item);
+    <a href="singlepage.html">\
+        <div class="item_crd_img">\
+            <img src="img/${img}" alt="Mango  People  T-shirt">\
+            <div class="overlay">\
+            </div>\
+        </div>\
+        <div class="itemcard_info">\
+            <div class="item_name">${name}</div>\
+            <div class="item_price">$ ${price}</div>\
+        </div>\
+    </a>\
+    </div>`
+        return itemCardHtml
     }
-    );
-    catalogItems[0].insertAdjacentHTML("afterbegin", itemOutput);
+    renderGoods() {
+        let itemOutput = '';
+        this.goodList.map(item => {
+            itemOutput += this.renderGoodItem(item);
+        }
+        );
+        this._goodsContiner.insertAdjacentHTML("afterbegin", itemOutput);
+    }
+}
+
+
+
+const pageProducts = new goodsList(document.getElementsByClassName("catalog_items")[0]);
+const pageCart = new cart(pageProducts);
+fetch('/HW3/product.json')
+    .then(respone => {
+        return respone.json();
+
+    })
+    .then(respone => {
+
+        respone.forEach(item => {
+            pageProducts.addGood(item);
+        });
+        pageProducts.renderGoods();
+    }).catch(console.log("server error \n"));
+function addToCart(e) {
+    pageCart.addToCart(e);
 
 }
 
-pageCart = new cart();
-displayItemsCards();
 pageCart.updateCart();
 
 
