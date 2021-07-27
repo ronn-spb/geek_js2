@@ -276,7 +276,7 @@ details summary::marker {
     width: 40px;
     border-radius: 0 3px 3px 0;
     border: 1px solid #e6e6e6;
-    background: #ffffff url("img/scr.png") no-repeat;
+    background: #ffffff url("../img/scr.png") no-repeat;
     background-position-x: center;
     background-position-y: center;
 
@@ -587,7 +587,7 @@ details summary::marker {
 }
 
 .feedback_subscrible {
-    background-image: url("img/feedback_bg.png");
+    background-image: url("../img/feedback_bg.png");
     height: 438px;
     background-color: #f2f2f2;
     background-repeat: no-repeat;

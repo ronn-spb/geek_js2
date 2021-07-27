@@ -1,4 +1,30 @@
-// let cart = [];
+let pageCart;
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        productList: []
+
+    },
+    mounted: async function () {
+        this.productList = await request('/HW5/product.json');
+        pageCart = new cart(this.productList);
+        pageCart.updateCart();
+    }
+});
+
+
+
+// Vue.component('loader', {
+//     template: `
+//       <div style="display: flex;justify-content: center;align-items: center">
+//         <div class="spinner-border" role="status">
+//           <span class="sr-only">Loading...</span>
+//         </div>
+//       </div>
+//     `
+// })
+
 class cart {
     constructor(pageProducts) {
         this.numGoods = 0;
@@ -11,7 +37,8 @@ class cart {
         if (indexInCart != -1) {
             this.cartList[indexInCart].quantity += 1;
         } else {
-            let productObj = pageProducts.goodList.find(product => product.id === e.id);
+            console.log(this.pageProducts);
+            let productObj = this.pageProducts.find(product => product.id === e.id);
 
             this.cartList.push({
                 id: productObj.id,
@@ -83,69 +110,88 @@ class cart {
         return total;
     }
 }
-class goodsList {
-    constructor(container) {
-        this.goodList = [];
-        this._goodsContiner = container;
-    }
-    addGood(goodItem) {
-        this.goodList.push(goodItem);
-    }
-    renderGoodItem({ id, price, name, img }) {
-        let itemCardHtml = `<div class="item_card">\
-        <div class="overlay_btn">\
-        <div class="add_to_card flex" id="${id}" onclick="addToCart(this)">\
-            <img src="img/card.svg" alt="">\
-                    Add to Cart\
-        </div>\
-    </div>\
-    <a href="singlepage.html">\
-        <div class="item_crd_img">\
-            <img src="img/${img}" alt="Mango  People  T-shirt">\
-            <div class="overlay">\
-            </div>\
-        </div>\
-        <div class="itemcard_info">\
-            <div class="item_name">${name}</div>\
-            <div class="item_price">$ ${price}</div>\
-        </div>\
-    </a>\
-    </div>`
-        return itemCardHtml
-    }
-    renderGoods() {
-        let itemOutput = '';
-        this.goodList.map(item => {
-            itemOutput += this.renderGoodItem(item);
+// class goodsList {
+//     constructor(container) {
+//         this.goodList = [];
+//         this._goodsContiner = container;
+//     }
+//     addGood(goodItem) {
+//         this.goodList.push(goodItem);
+//     }
+//     renderGoodItem({ id, price, name, img }) {
+//         let itemCardHtml = `<div class="item_card">\
+//         <div class="overlay_btn">\
+//         <div class="add_to_card flex" id="${id}" onclick="addToCart(this)">\
+//             <img src="img/card.svg" alt="">\
+//                     Add to Cart\
+//         </div>\
+//     </div>\
+//     <a href="singlepage.html">\
+//         <div class="item_crd_img">\
+//             <img src="img/${img}" alt="Mango  People  T-shirt">\
+//             <div class="overlay">\
+//             </div>\
+//         </div>\
+//         <div class="itemcard_info">\
+//             <div class="item_name">${name}</div>\
+//             <div class="item_price">$ ${price}</div>\
+//         </div>\
+//     </a>\
+//     </div>`
+//         return itemCardHtml
+//     }
+//     renderGoods() {
+//         let itemOutput = '';
+//         this.goodList.map(item => {
+//             itemOutput += this.renderGoodItem(item);
+//         }
+//         );
+//         this._goodsContiner.insertAdjacentHTML("afterbegin", itemOutput);
+//     }
+// }
+
+
+
+// const pageProducts = new goodsList(document.getElementsByClassName("catalog_items")[0]);
+
+// // fetch('/HW3/product.json')
+// //     .then(respone => {
+// //         return respone.json();
+
+// //     })
+// //     .then(respone => {
+
+// //         respone.forEach(item => {
+// //             pageProducts.addGood(item);
+// //         });
+// //         pageProducts.renderGoods();
+// //     })
+// //     .catch(console.log("server error \n"));
+// function addToCart(e) {
+//     pageCart.addToCart(e);
+
+// }
+async function request(url, method = 'GET', data = null) {
+    try {
+        const headers = {}
+        let body;
+
+        if (data) {
+            headers['Content-Type'] = 'application/json';
+            body = JSON.stringify(data);
         }
-        );
-        this._goodsContiner.insertAdjacentHTML("afterbegin", itemOutput);
+
+        const response = await fetch(url, {
+            method,
+            headers,
+            body
+        })
+        return await response.json();
+    } catch (e) {
+        console.warn('Error:', e.message);
     }
 }
 
-
-
-const pageProducts = new goodsList(document.getElementsByClassName("catalog_items")[0]);
-const pageCart = new cart(pageProducts);
-fetch('/HW3/product.json')
-    .then(respone => {
-        return respone.json();
-
-    })
-    .then(respone => {
-
-        respone.forEach(item => {
-            pageProducts.addGood(item);
-        });
-        pageProducts.renderGoods();
-    })
-    .catch(console.log("server error \n"));
-function addToCart(e) {
-    pageCart.addToCart(e);
-
-}
-
-pageCart.updateCart();
 
 
 

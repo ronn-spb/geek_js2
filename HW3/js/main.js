@@ -1,4 +1,20 @@
 // let cart = [];
+var app = new Vue({
+    el: '#app',
+    data: {
+        productList: []
+    },
+    methods: {
+        async mounted() {
+            this.productList = await request('/HW5/product.json');
+            console.log(this.productList);
+        }
+    }
+})
+
+
+
+
 class cart {
     constructor(pageProducts) {
         this.numGoods = 0;
@@ -127,24 +143,43 @@ class goodsList {
 
 const pageProducts = new goodsList(document.getElementsByClassName("catalog_items")[0]);
 const pageCart = new cart(pageProducts);
-fetch('/HW3/product.json')
-    .then(respone => {
-        return respone.json();
+// fetch('/HW3/product.json')
+//     .then(respone => {
+//         return respone.json();
 
-    })
-    .then(respone => {
+//     })
+//     .then(respone => {
 
-        respone.forEach(item => {
-            pageProducts.addGood(item);
-        });
-        pageProducts.renderGoods();
-    })
-    .catch(console.log("server error \n"));
+//         respone.forEach(item => {
+//             pageProducts.addGood(item);
+//         });
+//         pageProducts.renderGoods();
+//     })
+//     .catch(console.log("server error \n"));
 function addToCart(e) {
     pageCart.addToCart(e);
 
 }
+async function request(url, method = 'GET', data = null) {
+    try {
+        const headers = {}
+        let body
+        console.log('Get prod \n');
+        if (data) {
+            headers['Content-Type'] = 'application/json'
+            body = JSON.stringify(data)
+        }
 
+        const response = await fetch(url, {
+            method,
+            headers,
+            body
+        })
+        return await response.json()
+    } catch (e) {
+        console.warn('Error:', e.message)
+    }
+}
 pageCart.updateCart();
 
 

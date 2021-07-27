@@ -6,8 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/606c30367d.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <link rel="stylesheet" href="css/style.css">
-    <script defer src="js/main.js"></script>
+
     <title>Main page</title>
 </head>
 
@@ -495,7 +496,7 @@
             </nav>
         </div>
     </div>
-    <div class="catalog conteiner">
+    <div class="catalog conteiner ">
         <div class="catalog_content flex">
             <div class="catalog_tree">
                 <div>
@@ -698,11 +699,21 @@
                         </details>
                     </div>
                 </div>
-                <div class="catalog_items">
-                    <!-- <div class="item_card">
+                <div class="catalog_items" id="app">
+
+
+
+
+
+
+
+
+
+
+                    <div class="item_card" v-for="product in productList">
                         <div class="overlay_btn">
 
-                            <div class="add_to_card flex" onclick="addToCart(this)">
+                            <div class="add_to_card flex" v-bind:id="product.id" onclick="pageCart.addToCart(this)">
                                 <img src="img/card.svg" alt="">
                                 Add to Cart
                             </div>
@@ -710,17 +721,17 @@
                         </div>
                         <a href="singlepage.html">
                             <div class="item_crd_img">
-                                <img src="img/catalog-item-1.png" alt="Mango  People  T-shirt">
+                                <img v-bind:src="'img/'+product.img" alt="Mango  People  T-shirt">
                                 <div class="overlay">
                                 </div>
                             </div>
                             <div class="itemcard_info">
-                                <div class="item_name">Mango People T-shirt</div>
-                                <div class="item_price">$52.00</div>
+                                <div class="item_name">{{product.name}}</div>
+                                <div class="item_price">${{product.price}}</div>
                             </div>
                         </a>
                     </div>
-
+                    <!-- 
                     <div class="item_card">
                         <div class="overlay_btn">
 
@@ -1073,6 +1084,7 @@
 
 
     </footer>
+    <script src="js/main.js"></script>
     <script type="text/javascript">
         var inputLeft = document.getElementById("input-left");
         var inputRight = document.getElementById("input-right");
