@@ -496,7 +496,7 @@
             </nav>
         </div>
     </div>
-    <div class="catalog conteiner ">
+    <div class="catalog conteiner " id="app">
         <div class="catalog_content flex">
             <div class="catalog_tree">
                 <div>
@@ -665,41 +665,51 @@
                     </div>
                 </div>
                 <div class="sort flex">
-                    <div class="sortby flex">
-                        <div class="sort_cpt">Sort By</div>
-                        <div class="sort_decor"></div>
-                        <!-- <div class="sort_value">Name</div> -->
-                        <details class="sort_details">
-                            <summary class="sort_value">
-                                Name
+                    <div style="width: 100%;" class="flex flex_btw">
+                        <div class="flex">
+                            <div class="sortby flex">
+                                <div class="sort_cpt">Sort By</div>
+                                <div class="sort_decor"></div>
+                                <!-- <div class="sort_value">Name</div> -->
+                                <details class="sort_details">
+                                    <summary class="sort_value">
+                                        {{sortRule}}
 
-                            </summary>
-                            <div class="sort_value_sel">
-                                <div class="sort_value_item">Name</div>
-                                <div class="sort_value_item">Price</div>
+                                    </summary>
+                                    <div class="sort_value_sel">
+                                        <div id="sort_name" class="sort_value_item" v-on:click="sortRule='name'">Name
+                                        </div>
+                                        <div id="sort_price" class="sort_value_item" v-on:click="sortRule='price'">Price
+                                        </div>
+                                    </div>
+                                </details>
+                                <!-- <select class="sort_value" name="sort" id="sort_by">
+                                <option value="Name">Name</option>
+                                <option value="Price">Price</option>
+                            </select> -->
                             </div>
-                        </details>
-                        <!-- <select class="sort_value" name="sort" id="sort_by">
-                            <option value="Name">Name</option>
-                            <option value="Price">Price</option>
-                        </select> -->
-                    </div>
-                    <div class="show flex">
-                        <div class="show_cpt">Show</div>
-                        <div class="sort_decor"></div>
-                        <details class="show_details">
-                            <summary class="show_value">
-                                09
-                            </summary>
-                            <div class="sort_value_sel">
-                                <div class="show_value_item">09</div>
-                                <div class="show_value_item">25</div>
-                                <div class="show_value_item">50</div>
+                            <div class="show flex">
+                                <div class="show_cpt">Show</div>
+                                <div class="sort_decor"></div>
+                                <details class="show_details">
+                                    <summary class="show_value">
+                                        09
+                                    </summary>
+                                    <div class="sort_value_sel">
+                                        <div class="show_value_item">09</div>
+                                        <div class="show_value_item">25</div>
+                                        <div class="show_value_item">50</div>
+                                    </div>
+                                </details>
                             </div>
-                        </details>
+                        </div>
+                        <form class="search_continer flex" @submit.prevent="onSearch">
+                            <input class="search_field" type="search" placeholder="input search text"
+                                v-model="form.value">
+                        </form>
                     </div>
                 </div>
-                <div class="catalog_items" id="app">
+                <div class="catalog_items">
 
 
 
@@ -710,7 +720,7 @@
 
 
 
-                    <div class="item_card" v-for="product in productList">
+                    <div class="item_card" v-for="product in filterdProducts">
                         <div class="overlay_btn">
 
                             <div class="add_to_card flex" v-bind:id="product.id" onclick="pageCart.addToCart(this)">
@@ -1084,7 +1094,9 @@
 
 
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script src="js/main.js"></script>
+
     <script type="text/javascript">
         var inputLeft = document.getElementById("input-left");
         var inputRight = document.getElementById("input-right");

@@ -9,48 +9,48 @@
         "id": "2",
         "img": "catalog-item-2.png",
         "price": 60,
-        "name": "Mango People T-shirt"
+        "name": "raw-edge T-shirt"
     },
     {
         "id": "3",
         "img": "catalog-item-3.png",
         "price": 53,
-        "name": "Mango People T-shirt"
+        "name": "ersey Shirt Jacket"
     },
     {
         "id": "4",
         "img": "catalog-item-4.png",
         "price": 74,
-        "name": "Mango People T-shirt"
+        "name": "regular Fit Cotton Shorts"
     },
     {
         "id": "5",
         "img": "catalog-item-5.png",
         "price": 90,
-        "name": "Mango People T-shirt"
+        "name": "linen-blend Joggers"
     },
     {
         "id": "6",
         "img": "catalog-item-6.png",
         "price": 52,
-        "name": "Mango People T-shirt"
+        "name": "lelaxed Fit T-shirt"
     },
     {
         "id": "7",
         "img": "catalog-item-7.png",
         "price": 58,
-        "name": "Mango People T-shirt"
+        "name": "Regular Fit Resort Shirt"
     },
     {
         "id": "8",
         "img": "catalog-item-8.png",
         "price": 52,
-        "name": "Mango People T-shirt"
+        "name": "patterned Cotton Shorts"
     },
     {
         "id": "9",
         "img": "catalog-item-9.png",
         "price": 73,
-        "name": "Mango People T-shirt"
+        "name": "pegular Fit Cargo Shorts"
     }
 ]

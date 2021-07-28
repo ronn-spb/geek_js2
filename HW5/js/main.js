@@ -3,11 +3,46 @@ let pageCart;
 var app = new Vue({
     el: '#app',
     data: {
-        productList: []
+        productList: [],
+        form: { value: "", price: 0 },
+        sortRule: 'name'
 
     },
+    computed: {
+        filterdProducts: function () {
+            const { ...values } = this.form;
+            let filtered = this.productList
+                .filter(product => {
+
+                    if (product.name.indexOf(values.value.toLowerCase(), 0) != -1) return true;
+                });
+            var sorted = _.sortBy(filtered, product => {
+                return product[this.sortKey];
+            });
+            return sorted;
+        },
+        sortKey: function () {
+            return this.sortRule.split(':')[0];
+        },
+        sortDir: function () {
+            return this.sortRule.split(':')[1];
+        }
+    },
+    // methods: {
+    //     onSearch() {
+    //         // const { ...values } = this.form;
+
+    //         // this.productList = this.productList.filter(product => {
+    //         //     if (product.name.indexOf(values.value, 0) != -1) return true;
+    //         // })
+
+    //     }
+    // },
     mounted: async function () {
         this.productList = await request('/HW5/product.json');
+        this.productList.map(product => {
+            product.name = product.name.toLowerCase();
+        });
         pageCart = new cart(this.productList);
         pageCart.updateCart();
     }

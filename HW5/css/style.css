@@ -1091,7 +1091,15 @@ details summary::marker {
     font-size: 14px;
     font-weight: 400;
 }
-
+.search_field{
+    
+        border: 1px solid #ebebeb;
+        background-color: #ffffff;
+        width: 150px;
+        padding: 4px 10px;
+        outline: none;
+        height: 30px;
+}
 .imfo_block {
     background-color: #222224;
     padding-top: 89px;
